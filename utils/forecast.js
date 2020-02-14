@@ -36,7 +36,13 @@ const forecast = (latitude, longitude, callback) => {
         } else if (response.body.error) {
             callback(response.body.error, undefined)
         } else {
-            let summary = response.body.daily.data[0].summary
+            let summary = {
+                summary: response.body.daily.data[0].summary,
+                temperature: response.body.currently.temperature,
+                icon: response.body.daily.data[0].icon,
+                moonPhase:  response.body.daily.data[0].moonPhase,
+                windSpeed: response.body.daily.data[0].windSpeed,
+            }
             callback(undefined, summary)
         }
     })

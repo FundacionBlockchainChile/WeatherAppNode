@@ -1,5 +1,5 @@
-const forecast = require('./utils/forecast')
 const geocode = require('./utils/geocode')
+const forecast = require('./utils/forecast')
 const chalk = require('chalk')
 
 // CHALK OPTIONS
@@ -8,23 +8,33 @@ const success = chalk.green
 const wrong = chalk.red
 const info = chalk.yellow
 
+const address = process.argv[2]
 
+if (address) {
+  geocode(address, (error, data)=> {
+  if (error) {
+    return console.log(error)
+  } 
+  forecast(data.latitude, data.longitude, (error, forecast) => {
+    if (error) {
+      return console.log(error)
+    }
+      console.log(success('************  GEOCODE  ***********'))
+      console.log(data)
+      console.log(success('************ FORESCAST ***********'))
+      console.log(forecast)
+    })
+})
+} else {
+  console.log ('Please put a location on second argument...(process.argv[2])')
+}
 
 //
 
-forecast(-75.7088, 44.1545, (error, data) => {
-    console.log(success('************ FORESCAST *************'))
-    console.log('Error:', error)
-    console.log('Data:', data)
-  })
 
 
 
-geocode('Boston', (error, data)=> {
-    console.log(success('************ GEOCODE *************'))
-    console.log('Error:', error)
-    console.log('Data:', data)
-})
+
 
 
 
